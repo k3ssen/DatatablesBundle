@@ -292,7 +292,13 @@ class DatatableQueryBuilder
 
         $query = $qb->getQuery();
         $query->setHydrationMode(Query::HYDRATE_ARRAY)->useQueryCache($this->useQueryCache);
-        \call_user_func_array([$query, 'useResultCache'], $this->useResultCacheArgs);
+//        \call_user_func_array([$query, 'useResultCache'], $this->useResultCacheArgs);
+//        dump($this->useResultCacheArgs);
+        if ($this->useResultCacheArgs[0] === true) {
+            $query->enableResultCache();
+        } else {
+            $query->disableResultCache();
+        }
 
         return $query;
     }
@@ -311,7 +317,15 @@ class DatatableQueryBuilder
 
         $query = $qb->getQuery();
         $query->useQueryCache($this->useCountQueryCache);
-        \call_user_func_array([$query, 'useResultCache'], $this->useCountResultCacheArgs);
+//        \call_user_func_array([$query, 'useResultCache'], $this->useCountResultCacheArgs);
+
+//        \call_user_func_array([$query, 'useResultCache'], $this->useResultCacheArgs);
+//        dump($this->useResultCacheArgs);
+        if ($this->useCountResultCacheArgs[0] === true) {
+            $query->enableResultCache();
+        } else {
+            $query->disableResultCache();
+        }
 
         return ! $qb->getDQLPart('groupBy')
             ? (int) $query->getSingleScalarResult()
